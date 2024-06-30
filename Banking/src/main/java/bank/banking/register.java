@@ -1,8 +1,11 @@
 package bank.banking;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class register {
+public class register implements ActionListener {
 
     private JFrame reg = new JFrame("Register");
     private JTextField txtfname = new JTextField();
@@ -23,18 +26,17 @@ public class register {
     private JLabel lbladdress = new JLabel();
     private JLabel lblemail = new JLabel();
     private JButton Submit, Cancel;
-    
-            
+
     public register() {
         reg.setVisible(true);
         reg.setResizable(false);
         reg.setSize(600, 500);
         reg.setLayout(null);
         reg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-   txtreg = new JLabel("REGISTER");
-   txtreg.setBounds(120, 30, 120, 40);
-   txtreg.setFont(new Font("Helvetica", Font.BOLD, 15));
+
+        txtreg = new JLabel("REGISTER");
+        txtreg.setBounds(120, 30, 120, 40);
+        txtreg.setFont(new Font("Helvetica", Font.BOLD, 15));
 
         lblfname = new JLabel("First Name: ");
         lblfname.setBounds(30, 100, 120, 30);
@@ -75,14 +77,16 @@ public class register {
         lblmpin.setBounds(330, 250, 120, 30);
         txtmpin.setBounds(450, 250, 120, 30);
         txtmpin.setFont(new Font("Helvetica", Font.BOLD, 15));
-        
+
         Submit = new JButton("Confirm");
         Submit.setBounds(330, 350, 100, 30);
         Submit.setFont(new Font("Helvetica", Font.BOLD, 15));
-   
+        Submit.addActionListener(this);
+
         Cancel = new JButton("Cancel");
         Cancel.setBounds(450, 350, 100, 30);
         Cancel.setFont(new Font("Helvetica", Font.BOLD, 15));
+        Cancel.addActionListener(this);
 
         reg.add(txtreg);
         reg.add(lblfname);
@@ -103,5 +107,18 @@ public class register {
         reg.add(txtmpin);
         reg.add(Submit);
         reg.add(Cancel);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == Submit) {
+            reg.dispose();
+            Login log =  new Login();
+                    log.setVisible(true);
+        } else if (e.getSource() == Cancel) {
+            reg.dispose();
+           Login log =  new Login();
+                    log.setVisible(true);
+        }
     }
 }

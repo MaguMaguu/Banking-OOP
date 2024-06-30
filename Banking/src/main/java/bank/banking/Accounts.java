@@ -1,54 +1,78 @@
 package bank.banking;
 
-
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class Accounts  {
+public class Accounts implements ActionListener {
 
-    private JFrame a = new JFrame("Home Page");
-    private JButton bal, dep, wdraw, trans, exit;
+    private JFrame a;
+    private JButton bal, dep, wdraw, trans, settings;
     private JLabel txt1;
 
-  public Accounts(){
-       a.setSize(600, 400);
-       a.setLayout(null);
-       a.setDefaultCloseOperation(a.EXIT_ON_CLOSE);
+    public Accounts() {
+        initializeUI();
+    }
 
-       txt1 = new JLabel("Choose Your Transaction");
-       txt1.setBounds(200, 30, 400, 30);
-       txt1.setFont(new Font("Helvatica", Font.BOLD, 15));
+    private void initializeUI() {
+        a = new JFrame("Home Page");
+        a.setSize(600, 400);
+        a.setLayout(null);
+        a.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-       bal = new JButton("Check Balance");
-       bal.setBounds(20, 100, 150, 40);
-       bal.setFont(new Font("Helvetica", Font.BOLD, 15));
+        txt1 = new JLabel("Choose Your Transaction");
+        txt1.setBounds(200, 30, 400, 30);
+        txt1.setFont(new Font("Helvetica", Font.BOLD, 15));
 
-       dep = new JButton("Deposit");
-       dep.setBounds(220, 100, 150, 40);
-       dep.setFont(new Font("Helvetica", Font.BOLD, 15));
+        bal = createButton("Check Balance", 20, 100, 150, 40);
+        dep = createButton("Deposit", 220, 100, 150, 40);
+        wdraw = createButton("Withdraw", 420, 100, 150, 40);
+        trans = createButton("Transactions", 95, 200, 150, 40);
+        settings = createButton("Settings", 295, 200, 150, 40);
 
-       wdraw = new JButton("Withdraw");
-       wdraw.setBounds(420, 100, 150, 40);
-       wdraw.setFont(new Font("Helvetica", Font.BOLD, 15));
+        a.add(txt1);
+        a.add(bal);
+        a.add(dep);
+        a.add(wdraw);
+        a.add(trans);
+        a.add(settings);
 
-       trans = new JButton("Transactions");
-       trans.setBounds(95, 200, 150, 40);
-       trans.setFont(new Font("Helvetica", Font.BOLD, 15));
+        a.setVisible(true);
+        a.setResizable(false);
+    }
 
-       exit = new JButton("Exit");
-       exit.setBounds(295, 200, 150, 40);
-       exit.setFont(new Font("Helvetica", Font.BOLD, 15));
-       exit.addActionListener(e -> a.dispose());
+    private JButton createButton(String text, int x, int y, int width, int height) {
+        JButton button = new JButton(text);
+        button.setBounds(x, y, width, height);
+        button.setFont(new Font("Helvetica", Font.BOLD, 15));
+        button.addActionListener(this);
+        return button;
+    }
 
-       a.add(txt1);
-       a.add(bal);
-       a.add(dep);
-       a.add(wdraw);
-       a.add(trans);
-       a.add(exit);
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        a.setVisible(false);
 
-       a.setVisible(true);
-       a.setResizable(false);
+        if (e.getSource() == dep) {
+            new deposit(this);
+        } else if (e.getSource() == wdraw) {
+            new withdraw(this);
+        } else if (e.getSource() == trans) {
+            new transac(this);
+        } else if (e.getSource() == bal) {
+            new bal(this);
+        } else if (e.getSource() == settings) {
+            new setting(this);
+        }
+    }
 
+    // Method to make the Accounts frame visible again
+    public void showFrame() {
+        a.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(Accounts::new);
     }
 }
